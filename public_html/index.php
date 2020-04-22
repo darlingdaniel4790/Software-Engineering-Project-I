@@ -10,7 +10,7 @@
     header('Location: ' . $page);
     exit;
 }
-
+ 
   /* CHECK LOGIN DETAILS */
   if($_POST){
     if(array_key_exists("login", $_POST)){  // USER IS LOGGING IN
