@@ -1,54 +1,102 @@
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta http-equiv="cache-control" content="max-age=0" />
-  <meta http-equiv="cache-control" content="no-cache" />
-  <meta http-equiv="expires" content="0" />
-  <meta http-equiv="pragma" content="no-cache" />
-  <title>This site is brand new</title>
-  <style>
-
-  html
-  {
-    font-size: 62.5%;
-  }
-  body
-  {
-    margin: 0;
-    padding: 0;
-    font-size: 1.6rem;
-    color: #353535;
-    background: linear-gradient(to bottom, #ccc, #fff 30%);
-    background-repeat: no-repeat;
+<?php
+  /* CONNECT TO DATABASE */
+  $link = mysqli_connect("shareddb-t.hosting.stackcp.net", "crystalQuizApp-31333118bd","Fel1anno","crystalQuizApp-31333118bd");
+  if(mysqli_connect_error()){
+    die("Not connected.");  // IF CONNECTIUON FAILS, DO NOTHING
   }
 
-  h1,h3
-  {
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    text-transform: uppercase;
-  }
+  /* FUNCTION TO REDIRECT USER */
+  function redirect($page) {
+    header('Location: ' . $page);
+    exit;
+}
 
+  /* CHECK LOGIN DETAILS */
+  if($_POST){
+    if(array_key_exists("login", $_POST)){  // USER IS LOGGING IN
+      $query = "  SELECT `password`
+                  FROM `users`
+                  WHERE `username` = '".$_POST['username']."'
+      ";
+      if($result = mysqli_query($link, $query)){
+        if(mysqli_num_rows($result) > 0){
+          $row = mysqli_fetch_array($result);
+          if($_POST['password'] == $row['password']){
+            redirect("quiz-page.php");
+          } else {
+            echo "Your passord is incorrect";
+          }
+        } else {
+          echo "Your username is incorrect";
+        }
+      }
 
-  h1
-  {
-    margin: 20rem 0 1rem;
-    font-size: 3rem;
-  }
+    } else {  // USER IS SIGNING UP
+      //  CHECK IF USER EXISTS
+      $query = "  SELECT `id`
+                  FROM `users`
+                  WHERE `username` = '".$_POST['username']."'
+      ";
+      if($result = mysqli_query($link, $query)){
+        if(mysqli_num_rows($result) > 0){
+          echo "The username you selected has already been taken.";
+        } else {  //  SIGN USER UP
+          $query = "  INSERT INTO `users`
+                      (`username`, `password`)
+                      VALUES('".$_POST['username']."', '".$_POST['password']."')
+          ";
 
-  h3
-  {
-    font-weight: normal;
-    font-size: 1.4rem;
+          if($result = mysqli_query($link, $query)){
+            redirect("quiz-page.php");
+          } else {
+            echo "There was a problem signing you up, Please try again";
+          }
+        }
+      }
+    }
   }
-  </style>
-</head>
-<body>
-  <h1>This Site is no longer Brand New</h1>
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-</body>
+?>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Crystal Quiz App | Login</title>
+  </head>
+  <body>
+    <form class="" action="" method="post">
+      <div id="loginForm">
+        <input type="text" name="username" placeholder="Your Username" required>
+        <input type="password" name="password" placeholder="Your Password" required>
+        <button type="submit" name="login">Login and Take Test</button>
+      </div>
+    </form>
+      <button type="button" id="toggleButton">First Time? Sign Up</button>
+    <form class="" action="" method="post">
+      <div id="signupForm" style="display: none">
+        <input type="text" name="username" placeholder="Your Username" required>
+        <input type="password" id="password" name="password" placeholder="Your Password" required>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Your Password Again" required>
+        <button type="submit" id="signupButton" name="signup">Sign up and Take Test</button>
+      </div>
+    </form>
+
+    <script type="text/javascript">
+      /* TOGGLE THE DISPLAY OF THE SIGNUP FORM */
+      document.getElementById('toggleButton').onclick = function(){
+        if (document.getElementById('signupForm').style.display === "none") {
+          document.getElementById('signupForm').style.display = "block";
+        } else {
+          document.getElementById('signupForm').style.display = "none";
+        }
+      }
+
+      /* CHECK THAT PASSWORDS MATCH FOR SIGNUP */
+      document.getElementById("signupButton").onclick = function(event){
+        if(document.getElementById('password').value != document.getElementById('confirmPassword').value){
+          alert("Please check, your passwords don't match.");
+          event.preventDefault();
+        }
+      }
+    </script>
+  </body>
 </html>
