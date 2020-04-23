@@ -2,11 +2,28 @@
   /* START SESSION */
   session_start();
 
+  /* FUNCTION TO REDIRECT USER */
+  function redirect($page) {
+    header('Location: ' . $page);
+    exit;
+  }
+
+  if(!$_SESSION['username']){
+    redirect('index.php');
+  }
+
+  if(array_key_exists('logoutButton', $_POST)){
+    session_unset();
+    session_destroy();
+    redirect('index.php');
+  }
+
   /* CONNECT TO DATABASE */
   include('database-connect.txt');
 
   /* RETRIEVE QUESTIONS FROM DATABASE */
   $count = 1;
+  $allQuestions = [];
   $query = "  SELECT *
               FROM `questions`
               ORDER BY RAND()
@@ -15,7 +32,7 @@
     while($row = mysqli_fetch_array($result)){
       $name = "q$count";
       $$name = $row;  // STORE THE QUESTIONS AND ANSWERS IN THEIR SEPERATE ARRAYS
-      $_SESSION['questions'] = $row;  // STORE THE QUESTIONS FOR THE CURRENT SESSTION
+      $allQuestions[] = $row;  // STORE THE QUESTIONS FOR THE CURRENT SESSTION
       $count++;
     }
   }
@@ -30,7 +47,9 @@
     <title>Crystal Quiz App | Quiz Page</title>
   </head>
   <body>
-    <button type="submit" name="logoutButton">Click Here to Log Out</button>
+    <form class="" action="" method="post">
+      <button type="submit" name="logoutButton">Click Here to Log Out</button>
+    </form>
     <h2>Welcome <?php echo "$_SESSION[username]"; ?></h2>   <!-- PERSONALIZED WELCOME MESSAGE -->
     <p>This is a quiz to test your knowledge of English Language.</p>
 
@@ -117,6 +136,101 @@
 
       <br><button id="submitButton" type="button" name="button">Submit Answers</button>
     </form>
+    <div class="">
+      <h3>Your Score:</h3>
+      <p id="score"></p>
+    </div>
+    <script type="text/javascript">
+    function checkAnswer(answer,question){
+      var q = (document.getElementsByName(question));
+      for(var i=0; i<q.length; i++){
+        if(q[i].checked){
+          if(q[i].value == answer){
+            //correct answer
+            return true;
+          } else {
+            //wrong answer
+            return false;
+          }
+        }
+      }
+      if(i==q.length){
+        //no selection made => wrong answer
+        return false;
+      }
+    }
 
+
+    document.getElementById('submitButton').onclick = function(){
+      //variable for keeping student score
+      var totalScore = 0;
+      if(checkAnswer('<?php echo "$q1[answer]"; ?>', "Q1")){
+        document.getElementById("Q1").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q1").style.backgroundColor = "red";
+      }
+      if(checkAnswer('<?php echo "$q2[answer]"; ?>', "Q2")){
+        document.getElementById("Q2").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q2").style.backgroundColor = "red";
+      }
+      if(checkAnswer('<?php echo "$q3[answer]"; ?>', "Q3")){
+        document.getElementById("Q3").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q3").style.backgroundColor = "red";
+      }
+      if(checkAnswer('<?php echo "$q4[answer]"; ?>', "Q4")){
+        document.getElementById("Q4").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q4").style.backgroundColor = "red";
+      }
+      if(checkAnswer('<?php echo "$q5[answer]"; ?>', "Q5")){
+        document.getElementById("Q5").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q5").style.backgroundColor = "red";
+      }
+      if(checkAnswer('<?php echo "$q6[answer]"; ?>', "Q6")){
+        document.getElementById("Q6").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q6").style.backgroundColor = "red";
+      }
+      if(checkAnswer('<?php echo "$q7[answer]"; ?>', "Q7")){
+        document.getElementById("Q7").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q7").style.backgroundColor = "red";
+      }
+      if(checkAnswer('<?php echo "$q8[answer]"; ?>', "Q8")){
+        document.getElementById("Q8").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q8").style.backgroundColor = "red";
+      }
+      if(checkAnswer('<?php echo "$q9[answer]"; ?>', "Q9")){
+        document.getElementById("Q9").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q9").style.backgroundColor = "red";
+      }
+      if(checkAnswer('<?php echo "$q10[answer]"; ?>', "Q10")){
+        document.getElementById("Q10").style.backgroundColor = "green";
+        totalScore+=1;
+      } else{
+        document.getElementById("Q10").style.backgroundColor = "red";
+      }
+
+      var percent = (totalScore*100)/10;
+
+      document.getElementById("score").innerHTML = "Your score is "+String(percent)+"%.";
+
+
+    }
+    </script>
     </body>
 </html>

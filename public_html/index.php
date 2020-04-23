@@ -8,6 +8,7 @@
   /* FUNCTION TO REDIRECT USER */
   function redirect($page) {
     header('Location: ' . $page);
+    exit;
   }
 
   $errorMessage = "";
