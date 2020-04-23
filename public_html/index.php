@@ -10,7 +10,7 @@
     header('Location: ' . $page);
     exit;
 }
- 
+
   /* CHECK LOGIN DETAILS */
   if($_POST){
     if(array_key_exists("login", $_POST)){  // USER IS LOGGING IN
@@ -60,6 +60,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crystal Quiz App | Login</title>
   </head>
   <body>
