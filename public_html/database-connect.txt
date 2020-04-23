@@ -1,0 +1,6 @@
+<?php
+  $link = mysqli_connect("shareddb-t.hosting.stackcp.net", "crystalQuizApp-31333118bd","Fel1anno","crystalQuizApp-31333118bd");
+  if(mysqli_connect_error()){
+    die("Not connected.");  // IF CONNECTIUON FAILS, DO NOTHING
+  }
+?>

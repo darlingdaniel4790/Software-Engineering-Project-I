@@ -1,20 +1,20 @@
 <?php
+  /* START SESSION */
+  session_start();
+
   /* CONNECT TO DATABASE */
-  $link = mysqli_connect("shareddb-t.hosting.stackcp.net", "crystalQuizApp-31333118bd","Fel1anno","crystalQuizApp-31333118bd");
-  if(mysqli_connect_error()){
-    die("Not connected.");  // IF CONNECTIUON FAILS, DO NOTHING
-  }
+  include('database-connect.txt');
 
   /* FUNCTION TO REDIRECT USER */
   function redirect($page) {
     header('Location: ' . $page);
-    exit;
-}
+  }
 
+  $errorMessage = "";
   /* CHECK LOGIN DETAILS */
   if($_POST){
     if(array_key_exists("login", $_POST)){  // USER IS LOGGING IN
-      $query = "  SELECT `password`
+      $query = "  SELECT *
                   FROM `users`
                   WHERE `username` = '".$_POST['username']."'
       ";
@@ -22,12 +22,13 @@
         if(mysqli_num_rows($result) > 0){
           $row = mysqli_fetch_array($result);
           if($_POST['password'] == $row['password']){
-            redirect("quiz-page.php");
+            if($_SESSION['username'] = $row['username'])  // STORE THE SESSION USERNAME
+              redirect("quiz-page.php");  // SUCCESSFUL SIGN IN
           } else {
-            echo "Your passord is incorrect";
+            $errorMessage = "Your passord is incorrect";
           }
         } else {
-          echo "Your username is incorrect";
+          $errorMessage = "Your username is incorrect";
         }
       }
 
@@ -39,7 +40,7 @@
       ";
       if($result = mysqli_query($link, $query)){
         if(mysqli_num_rows($result) > 0){
-          echo "The username you selected has already been taken.";
+          $errorMessage = "The username you selected has already been taken.";
         } else {  //  SIGN USER UP
           $query = "  INSERT INTO `users`
                       (`username`, `password`)
@@ -47,9 +48,10 @@
           ";
 
           if($result = mysqli_query($link, $query)){
-            redirect("quiz-page.php");
+            if($_SESSION['username'] = $_POST['username'])  // STORE THE SESSION USERNAME
+            redirect("quiz-page.php");  // SUCCESSFUL SIGNUP
           } else {
-            echo "There was a problem signing you up, Please try again";
+            $errorMessage = "There was a problem signing you up, Please try again";
           }
         }
       }
@@ -62,8 +64,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crystal Quiz App | Login</title>
+    <link rel="stylesheet" type="text/css" href="indexPageStyle.css">
   </head>
-  <body>
+  <body >
+    <div class="errorDiv">
+      <p><?php echo $errorMessage; ?></p>
+    </div>
     <form class="" action="" method="post">
       <div id="loginForm">
         <input type="text" name="username" placeholder="Your Username" required>
