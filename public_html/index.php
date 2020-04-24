@@ -65,8 +65,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crystal Quiz App | Login</title>
     <link rel="stylesheet" type="text/css" href="indexPageStyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Open+Sans:wght@800&display=swap" rel="stylesheet">
   </head>
   <body >
+    <section class="header">
+      <div class="logo">
+        <img src="images/crystal.png" alt="logo">
+      </div>
+      <h1>CRYSTAL</h1>
+    </section>
+    
     <div class="errorDiv">
       <p><?php echo $errorMessage; ?></p>
     </div>
