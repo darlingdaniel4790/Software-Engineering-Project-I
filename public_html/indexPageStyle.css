@@ -1,0 +1,71 @@
+body{
+	background-color: #A9FFF7 ;
+}
+
+ /* Index page */
+
+.header{
+	padding-top: 50px;
+	padding-bottom: 20px;
+}
+
+.logo img {
+	display: block;
+	margin: 0 auto;
+	padding-bottom: 10px;
+	position: center;
+}
+
+h1{
+	text-align: center;
+	margin: 0 auto;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 30px;
+	color: #fff;
+	background-color: #333;
+	width: 30%;
+}
+
+#loginForm{
+	background-color: #fff;
+	width: 30%;
+	margin: 0 auto;
+	height: 400px;
+	border: 3px solid #639dd0;
+	border-radius: 10px;
+	padding-top:30px ;
+	display: block;
+	text-align: center;
+}
+
+#loginForm input{
+	width: 80%;
+  	border-radius: 5px;
+	border: 3px solid #639dd0;
+  	padding:15px;
+  	margin-bottom: 15px;
+}
+
+button {
+	background-color: #fff;
+	padding: 5px;
+	border: 3px solid #639dd0;
+}
+
+button:hover {
+	background-color: #639dd0;
+	color: #fff;
+	border: 3px solid grey;
+}
+
+@media all and (max-width: 700px) {
+
+    body, #loginForm,h1{
+        min-width: 40%;
+
+
+}
+
+
+/*error message pop up*/
+
