@@ -28,6 +28,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crystal Quiz App | Quiz Page</title>
+    <link rel="stylesheet" type="text/css" href="indexPageStyle.css">
   </head>
   <body>
     <button type="submit" name="logoutButton">Click Here to Log Out</button>
