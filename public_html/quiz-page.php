@@ -37,6 +37,18 @@
     }
   }
 
+  /* RETRIEVE USER SCORE FROM DATABASE */
+  $query = "  SELECT `score`
+              FROM `users`
+              WHERE `username` = '".$_SESSION['username']."'
+  ";
+  if($result = mysqli_query($link,$query)){
+    $row = mysqli_fetch_array($result);
+    if(!is_null($row['score'] || $row['score']==0)){
+      $score = $row['score'];
+    }
+  }
+
 ?>
 
 <!DOCTYPE html>
@@ -50,10 +62,19 @@
     <form class="" action="" method="post">
       <button type="submit" name="logoutButton">Click Here to Log Out</button>
     </form>
-    <h2>Welcome <?php echo "$_SESSION[username]"; ?></h2>   <!-- PERSONALIZED WELCOME MESSAGE -->
-    <p>This is a quiz to test your knowledge of English Language.</p>
-
-    <form class="" action="" method="post">
+    <form id="tryAgainDiv" class="" action="" method="post" target="_self" style="display: none">
+      <button type="submit" name="button">Try Again?</button>
+    </form>
+    <div id="resultsDiv" class="" style="display: none">
+      <h3>Your Score</h3>
+      <p><?php if(!is_null($score)){ echo "You have taken this quiz before, your score was $score%"; } ?></p>
+      <p id="score"></p>
+    </div>
+    <div id="headerDiv" class="">
+      <h1>Welcome <?php echo "$_SESSION[username]"; ?></h1>   <!-- PERSONALIZED WELCOME MESSAGE -->
+      <h3>This is a quiz to test your knowledge of English Language.</h3>
+    </div>
+    <form id="questionForm" class="" action="db-score-update.php" method="post" target="_blank">
       <div id="Q1" class="questions">
         <p>1. <?php echo "$q1[question]";  ?></p>
         <input type="radio" name="Q1" value="<?php echo "$q1[option1]"; ?>"><?php echo "$q1[option1]"; ?>
@@ -134,13 +155,11 @@
         <input type="radio" name="Q10" value="<?php echo "$q10[option4]"; ?>"><?php echo "$q10[option4]"; ?>
       </div>
 
-      <br><button id="submitButton" type="button" name="button">Submit Answers</button>
+      <br><button id="submitButton" type="submit" name="submitButton">Submit Answers</button>
     </form>
-    <div class="">
-      <h3>Your Score:</h3>
-      <p id="score"></p>
-    </div>
+
     <script type="text/javascript">
+    /* FUNCTION FOR CHECKING ANSWERS */
     function checkAnswer(answer,question){
       var q = (document.getElementsByName(question));
       for(var i=0; i<q.length; i++){
@@ -160,76 +179,106 @@
       }
     }
 
-
+    /* CHECKING THE QUESTIONS ONE AFTER THE OTHER */
     document.getElementById('submitButton').onclick = function(){
       //variable for keeping student score
       var totalScore = 0;
+
       if(checkAnswer('<?php echo "$q1[answer]"; ?>', "Q1")){
         document.getElementById("Q1").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q1").innerHTML = document.getElementById("Q1").innerHTML + "<p>Answer: "+'<?php echo "$q1[answer]"; ?></p>';
         document.getElementById("Q1").style.backgroundColor = "red";
       }
+
       if(checkAnswer('<?php echo "$q2[answer]"; ?>', "Q2")){
         document.getElementById("Q2").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q2").innerHTML = document.getElementById("Q2").innerHTML + "<p>Answer: "+'<?php echo "$q2[answer]"; ?></p>';
         document.getElementById("Q2").style.backgroundColor = "red";
       }
+
       if(checkAnswer('<?php echo "$q3[answer]"; ?>', "Q3")){
         document.getElementById("Q3").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q3").innerHTML = document.getElementById("Q3").innerHTML + "<p>Answer: "+'<?php echo "$q3[answer]"; ?></p>';
         document.getElementById("Q3").style.backgroundColor = "red";
       }
+
       if(checkAnswer('<?php echo "$q4[answer]"; ?>', "Q4")){
         document.getElementById("Q4").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q4").innerHTML = document.getElementById("Q4").innerHTML + "<p>Answer: "+'<?php echo "$q4[answer]"; ?></p>';
         document.getElementById("Q4").style.backgroundColor = "red";
       }
+
       if(checkAnswer('<?php echo "$q5[answer]"; ?>', "Q5")){
         document.getElementById("Q5").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q5").innerHTML = document.getElementById("Q5").innerHTML + "<p>Answer: "+'<?php echo "$q5[answer]"; ?></p>';
         document.getElementById("Q5").style.backgroundColor = "red";
       }
+
       if(checkAnswer('<?php echo "$q6[answer]"; ?>', "Q6")){
         document.getElementById("Q6").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q6").innerHTML = document.getElementById("Q6").innerHTML + "<p>Answer: "+'<?php echo "$q6[answer]"; ?></p>';
         document.getElementById("Q6").style.backgroundColor = "red";
       }
+
       if(checkAnswer('<?php echo "$q7[answer]"; ?>', "Q7")){
         document.getElementById("Q7").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q7").innerHTML = document.getElementById("Q7").innerHTML + "<p>Answer: "+'<?php echo "$q7[answer]"; ?></p>';
         document.getElementById("Q7").style.backgroundColor = "red";
       }
+
       if(checkAnswer('<?php echo "$q8[answer]"; ?>', "Q8")){
         document.getElementById("Q8").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q8").innerHTML = document.getElementById("Q8").innerHTML + "<p>Answer: "+'<?php echo "$q8[answer]"; ?></p>';
         document.getElementById("Q8").style.backgroundColor = "red";
       }
+
       if(checkAnswer('<?php echo "$q9[answer]"; ?>', "Q9")){
         document.getElementById("Q9").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q9").innerHTML = document.getElementById("Q9").innerHTML + "<p>Answer: "+'<?php echo "$q9[answer]"; ?>';
         document.getElementById("Q9").style.backgroundColor = "red";
       }
+
       if(checkAnswer('<?php echo "$q10[answer]"; ?>', "Q10")){
         document.getElementById("Q10").style.backgroundColor = "green";
         totalScore+=1;
       } else{
+        document.getElementById("Q10").innerHTML = document.getElementById("Q10").innerHTML + "<p>Answer: "+'<?php echo "$q10[answer]"; ?>';
         document.getElementById("Q10").style.backgroundColor = "red";
       }
 
       var percent = (totalScore*100)/10;
 
-      document.getElementById("score").innerHTML = "Your score is "+String(percent)+"%.";
+      this.value = percent;
 
+      document.getElementById("resultsDiv").style.display = "block";
 
+      document.getElementById("tryAgainDiv").style.display = "block";
+
+      document.getElementById("submitButton").style.display = "none";
+
+      document.getElementById("headerDiv").style.display = "none";
+
+      document.getElementById("score").innerHTML = "Your score for this test is "+String(percent)+"%. You can review your answers below, try again, or Logout. Your score has been updated.";
+
+      window.scrollTo(0,0);
     }
     </script>
     </body>
