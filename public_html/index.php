@@ -83,9 +83,12 @@
         <input type="text" name="username" placeholder="Your Username" required>
         <input type="password" name="password" placeholder="Your Password" required>
         <button type="submit" name="login">Login and Take Test</button>
+        <div id="signupQuestion">
+        <p>Don't have an account?</p>
+        <button type="button" id="toggleButton"> Sign Up</button>
+      </div>
       </div>
     </form>
-      <button type="button" id="toggleButton">First Time? Sign Up</button>
     <form class="" action="" method="post">
       <div id="signupForm" style="display: none">
         <input type="text" name="username" placeholder="Your Username" required>
@@ -100,8 +103,10 @@
       document.getElementById('toggleButton').onclick = function(){
         if (document.getElementById('signupForm').style.display === "none") {
           document.getElementById('signupForm').style.display = "block";
+          document.getElementById('loginForm').style.display = "none";
         } else {
           document.getElementById('signupForm').style.display = "none";
+          document.getElementById('loginForm').style.display = "block";
         }
       }
 
