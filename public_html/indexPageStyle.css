@@ -1,5 +1,7 @@
 body{
-	background-color: #A9FFF7 ;
+	background-color: #A9FFF7;
+	margin: 0; 
+	height: 100%; 
 }
 
  /* Index page */
@@ -16,7 +18,7 @@ body{
 	position: center;
 }
 
-h1{
+h1,h2{
 	text-align: center;
 	margin: 0 auto;
 	font-family: 'Open Sans', sans-serif;
@@ -26,11 +28,12 @@ h1{
 	width: 30%;
 }
 
-#loginForm{
+#loginForm,#signupForm{
 	background-color: #fff;
+	background-image: url("images/crystal2.jpg");
 	width: 30%;
 	margin: 0 auto;
-	height: 400px;
+	height: 370px;
 	border: 3px solid #639dd0;
 	border-radius: 10px;
 	padding-top:30px ;
@@ -38,12 +41,31 @@ h1{
 	text-align: center;
 }
 
-#loginForm input{
+#loginForm input,#signupForm input{
 	width: 80%;
   	border-radius: 5px;
 	border: 3px solid #639dd0;
   	padding:15px;
   	margin-bottom: 15px;
+}
+
+#signupQuestion{
+	padding-top: 50px;
+	width: 100%;
+	display: flex;	
+}
+
+#signupQuestion p{
+	margin: 5px;
+	font-size: 15px;
+	font-family: 'roboto', sans-serif;
+	font-weight: bold;
+	color: #fff;
+}
+#signupQuestion button{
+	background-color: #fff;
+	font-family: 'roboto', sans-serif;
+
 }
 
 button {
@@ -52,18 +74,29 @@ button {
 	border: 3px solid #639dd0;
 }
 
-button:hover {
-	background-color: #639dd0;
-	color: #fff;
-	border: 3px solid grey;
+button {
+	background-color: #fff;
+	color: #333;		
+	padding: 5px;
+	border: 3px solid #639dd0;
+
 }
 
-@media all and (max-width: 700px) {
+button:hover {
+	background-color: #A9FFF7;
+	opacity: 90%;
+	color: #000;
+	border: 3px solid #FF5733;
+	border-radius: 5rem;
+	transition:all 1s ease-in-out;
+	
+}
 
-    body, #loginForm,h1{
-        min-width: 40%;
 
-
+.questions{
+	width: 80%;
+	background-color: pink;
+	margin: 0 auto;
 }
 
 
